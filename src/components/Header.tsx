@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Menu, X, Globe, User } from 'lucide-react';
+import { MapPin, Menu, X, Globe, User, ChevronDown } from 'lucide-react';
+import { siteStructure, userTypeConfigs, type NavigationItem } from '../types/navigation';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  currentLanguage?: 'en' | 'th';
+  onLanguageChange?: (language: 'en' | 'th') => void;
+  userType?: 'tourist' | 'local' | 'researcher' | 'business';
+}
+
+const Header: React.FC<HeaderProps> = ({ 
+  currentLanguage = 'en', 
+  onLanguageChange = () => {}, 
+  userType = 'tourist' 
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -14,13 +26,16 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { label: 'Culture', href: '#culture' },
-    { label: 'Jobs', href: '#jobs' },
-    { label: 'Business', href: '#business' },
-    { label: 'Map', href: '#map' },
-    { label: 'Community', href: '#community' }
-  ];
+  const getLabel = (item: NavigationItem) => {
+    return currentLanguage === 'th' ? item.labelTh : item.label;
+  };
+
+  const isRelevantForUser = (item: NavigationItem) => {
+    if (!item.userTypes) return true;
+    return item.userTypes.includes(userType);
+  };
+
+  const filteredNavigation = siteStructure.primaryNavigation.filter(isRelevantForUser);
 
   return (
     <header
@@ -38,34 +53,78 @@ const Header: React.FC = () => {
               <MapPin className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-amber-700 to-red-700 bg-clip-text text-transparent">
-                ที่นี่ วังสามหมอ
+              <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-700 to-red-700 bg-clip-text text-transparent">
+                {currentLanguage === 'th' ? 'ที่นี่ วังสามหมอ' : 'Tourderwang'}
               </h1>
-              <p className="text-xs text-gray-600 hidden sm:block">Tourderwang</p>
+              <p className="text-xs text-gray-600 hidden sm:block">
+                {currentLanguage === 'th' ? 'วัฒนธรรมผู้ไทย' : 'Phu Thai Culture'}
+              </p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
+          <div className="hidden lg:flex items-center space-x-8">
+            {filteredNavigation.map((item) => (
+              <div
                 key={item.label}
-                href={item.href}
-                className={`font-medium transition-colors duration-300 hover:text-amber-600 ${
-                  isScrolled ? 'text-gray-700' : 'text-white hover:text-amber-200'
-                }`}
+                className="relative"
+                onMouseEnter={() => setActiveDropdown(item.id)}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.label}
-              </a>
+                <button
+                  className={`flex items-center space-x-1 font-medium transition-colors duration-300 ${
+                    isScrolled 
+                      ? 'text-gray-700 hover:text-amber-600' 
+                      : 'text-white hover:text-amber-200'
+                  }`}
+                >
+                  <span>{getLabel(item)}</span>
+                  {item.children && <ChevronDown className="h-4 w-4" />}
+                </button>
+
+                {/* Dropdown Menu */}
+                {item.children && activeDropdown === item.id && (
+                  <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 py-4 z-50">
+                    <div className="px-4 pb-3 border-b border-gray-100">
+                      <h3 className="font-semibold text-gray-900">{getLabel(item)}</h3>
+                      <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                    </div>
+                    <div className="py-2">
+                      {item.children.filter(isRelevantForUser).map((child) => (
+                        <a
+                          key={child.id}
+                          href={child.href}
+                          className="block px-4 py-3 hover:bg-gray-50 transition-colors duration-200"
+                        >
+                          <div className="font-medium text-gray-900">{getLabel(child)}</div>
+                          <div className="text-sm text-gray-600 mt-1">{child.description}</div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
-          </nav>
+          </div>
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <button className="flex items-center space-x-2 text-gray-600 hover:text-amber-600 transition-colors duration-300">
+            {/* Language Toggle */}
+            <button
+              onClick={() => onLanguageChange(currentLanguage === 'en' ? 'th' : 'en')}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-300 ${
+                isScrolled
+                  ? 'text-gray-600 hover:text-amber-600 hover:bg-gray-100'
+                  : 'text-white hover:text-amber-200 hover:bg-white/20'
+              }`}
+            >
               <Globe className="h-4 w-4" />
-              <span className="text-sm">EN</span>
+              <span className="text-sm font-medium">
+                {currentLanguage === 'en' ? 'ไทย' : 'EN'}
+              </span>
             </button>
+
+            {/* User Type Specific CTA */}
             <button
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                 isScrolled
@@ -74,7 +133,7 @@ const Header: React.FC = () => {
               }`}
             >
               <User className="h-4 w-4" />
-              <span>Sign In</span>
+              <span>{userTypeConfigs[userType].callToActions[0]}</span>
             </button>
           </div>
 
@@ -95,24 +154,40 @@ const Header: React.FC = () => {
         {isMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-200">
             <div className="px-4 py-6 space-y-4">
-              {navItems.map((item) => (
+              {/* Language Toggle Mobile */}
+              <div className="flex justify-between items-center pb-4 border-b border-gray-200">
+                <span className="font-medium text-gray-900">
+                  {currentLanguage === 'th' ? 'ภาษา' : 'Language'}
+                </span>
+                <button
+                  onClick={() => onLanguageChange(currentLanguage === 'en' ? 'th' : 'en')}
+                  className="flex items-center space-x-2 text-amber-600 hover:text-amber-700"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span>{currentLanguage === 'en' ? 'ไทย' : 'English'}</span>
+                </button>
+              </div>
+
+              {/* Mobile Navigation Items */}
+              {siteStructure.mobileNavigation.map((item) => (
                 <a
-                  key={item.label}
+                  key={item.id}
                   href={item.href}
                   className="block text-gray-700 font-medium hover:text-amber-600 transition-colors duration-300"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.label}
+                  {getLabel(item)}
                 </a>
               ))}
+
+              {/* Mobile CTA */}
               <div className="border-t border-gray-200 pt-4 space-y-3">
-                <button className="flex items-center space-x-2 text-gray-600 hover:text-amber-600 transition-colors duration-300">
-                  <Globe className="h-4 w-4" />
-                  <span>Language: English</span>
+                <button className="w-full bg-amber-600 text-white px-4 py-3 rounded-xl font-medium hover:bg-amber-700 transition-colors duration-300">
+                  {userTypeConfigs[userType].callToActions[0]}
                 </button>
-                <button className="w-full flex items-center justify-center space-x-2 bg-amber-600 text-white px-4 py-3 rounded-xl font-medium hover:bg-amber-700 transition-colors duration-300">
+                <button className="w-full flex items-center justify-center space-x-2 bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors duration-300">
                   <User className="h-4 w-4" />
-                  <span>Sign In</span>
+                  <span>{currentLanguage === 'th' ? 'เข้าสู่ระบบ' : 'Sign In'}</span>
                 </button>
               </div>
             </div>
