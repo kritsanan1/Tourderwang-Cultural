@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Route, Switch } from 'wouter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
-import Header from './components/Header';
+import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
@@ -12,6 +12,7 @@ import SEO from './components/SEO';
 import CulturePage from './pages/CulturePage';
 import CommunityPage from './pages/CommunityPage';
 import BusinessPage from './pages/BusinessPage';
+import ExplorePage from './pages/ExplorePage';
 
 const queryClient = new QueryClient();
 
@@ -27,10 +28,9 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <SEO />
-      <Header 
+      <Navigation 
         currentLanguage={currentLanguage}
         onLanguageChange={handleLanguageChange}
-        userType={userType}
       />
       <main>
         <Hero />
@@ -53,6 +53,7 @@ function App() {
             <Route path="/culture" component={CulturePage} />
             <Route path="/community" component={CommunityPage} />
             <Route path="/business" component={BusinessPage} />
+            <Route path="/explore" component={ExplorePage} />
             <Route>
               <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-red-50">
                 <div className="text-center max-w-md mx-auto px-4">
