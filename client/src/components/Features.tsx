@@ -88,23 +88,23 @@ const Features: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-12 sm:py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+        {/* Section Header - Mobile optimized */}
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 mobile-text-optimize">
             Everything You Need to
             <span className="block bg-gradient-to-r from-amber-600 to-red-600 bg-clip-text text-transparent">
               Explore & Connect
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mobile-text-optimize px-2 sm:px-0">
             Comprehensive platform connecting you with Phu Thai culture, local opportunities, and community experiences in Wang Sam Mo district.
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Features Grid - Mobile optimized */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {features.map((feature) => {
             const IconComponent = iconMap[feature.icon as keyof typeof iconMap];
             const gradientClass = categoryColors[feature.category];
@@ -112,7 +112,7 @@ const Features: React.FC = () => {
             return (
               <div
                 key={feature.id}
-                className="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 transform hover:-translate-y-2"
+                className="group bg-white rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200 transform hover:-translate-y-2 touch-feedback"
               >
                 {/* Category Badge */}
                 <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 mb-4">
@@ -120,23 +120,23 @@ const Features: React.FC = () => {
                 </div>
 
                 {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${gradientClass} mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className="h-8 w-8 text-white" />
+                <div className={`inline-flex items-center justify-center w-14 sm:w-16 h-14 sm:h-16 rounded-2xl bg-gradient-to-r ${gradientClass} mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <IconComponent className="h-6 sm:h-8 w-6 sm:w-8 text-white" aria-hidden="true" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-amber-700 transition-colors duration-300">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 group-hover:text-amber-700 transition-colors duration-300 mobile-text-optimize">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed mobile-text-optimize">
                   {feature.description}
                 </p>
 
                 {/* Hover Effect */}
-                <div className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="mt-4 sm:mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="flex items-center text-amber-600 text-sm font-medium">
                     Learn more
-                    <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>

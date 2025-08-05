@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom mobile-first optimizations */
+@layer base {
+  /* Optimized font loading with system font fallbacks */
+  html {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  /* Touch optimization for mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Improved text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Optimized viewport handling */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+}
+
+@layer components {
+  /* Mobile-optimized interactive elements */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Enhanced readability for small screens */
+  .mobile-text-optimize {
+    line-height: 1.6;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  /* Improved mobile navigation */
+  .mobile-nav-item {
+    @apply touch-target px-4 py-3 text-left w-full flex items-center space-x-3;
+  }
+  
+  /* Better touch feedback */
+  .touch-feedback {
+    @apply active:scale-95 transition-transform duration-150;
+  }
+}
+
+/* Performance optimizations */
+@layer utilities {
+  /* GPU acceleration for animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* Optimized backgrounds for mobile */
+  .mobile-bg-optimize {
+    background-attachment: scroll; /* Better mobile performance */
+  }
+}

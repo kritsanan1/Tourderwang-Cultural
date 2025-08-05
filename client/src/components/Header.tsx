@@ -47,16 +47,16 @@ const Header: React.FC<HeaderProps> = ({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
+          {/* Logo - Mobile optimized */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <div className="bg-gradient-to-r from-amber-600 to-red-600 p-2 rounded-xl shadow-lg">
-              <MapPin className="h-6 w-6 text-white" />
+              <MapPin className="h-5 sm:h-6 w-5 sm:w-6 text-white" aria-label="Tourderwang logo" />
             </div>
             <div>
-              <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-700 to-red-700 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-amber-700 to-red-700 bg-clip-text text-transparent mobile-text-optimize">
                 {currentLanguage === 'th' ? 'ที่นี่ วังสามหมอ' : 'Tourderwang'}
               </h1>
-              <p className="text-xs text-gray-600 hidden sm:block">
+              <p className="text-xs text-gray-600 hidden sm:block mobile-text-optimize">
                 {currentLanguage === 'th' ? 'วัฒนธรรมผู้ไทย' : 'Phu Thai Culture'}
               </p>
             </div>
@@ -137,14 +137,16 @@ const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle - Enhanced touch target */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
+            className={`lg:hidden p-3 rounded-lg transition-colors duration-300 touch-target touch-feedback ${
               isScrolled
                 ? 'text-gray-700 hover:bg-gray-100'
                 : 'text-white hover:bg-white/20'
             }`}
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>

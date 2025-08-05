@@ -106,15 +106,24 @@ const CallToAction: React.FC = () => {
                 </div>
               )}
 
-              {/* Alternative CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all duration-300">
+              {/* Alternative CTAs - Mobile optimized */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <button 
+                  className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-4 sm:px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all duration-300 touch-target touch-feedback w-full sm:w-auto"
+                  aria-label="Browse Phu Thai cultural sites"
+                >
                   Browse Cultural Sites
                 </button>
-                <button className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all duration-300">
+                <button 
+                  className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-4 sm:px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all duration-300 touch-target touch-feedback w-full sm:w-auto"
+                  aria-label="Explore local job opportunities"
+                >
                   Explore Job Opportunities
                 </button>
-                <button className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all duration-300">
+                <button 
+                  className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-4 sm:px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all duration-300 touch-target touch-feedback w-full sm:w-auto"
+                  aria-label="Find local businesses in Wang Sam Mo"
+                >
                   Find Local Businesses
                 </button>
               </div>
